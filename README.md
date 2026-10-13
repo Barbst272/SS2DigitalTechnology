@@ -23,7 +23,7 @@ The **Digital Technologies Workbench** is an all-in-one, offline-first digital l
 - **📝 Office Suite Practice:**
   - Word Processor with rich text tools.
   - Spreadsheet with formulas (SUM, AVERAGE, MIN, MAX, COUNT, IF).
-  - Presentation Builder with slide layouts and slideshow preview.
+  - Presentation Builder with slide layouts, transitions (Fade, Push, Zoom, Wipe, Flip 3D), bullet entrance animations (Fly In, Fade, Zoom, Bounce), and interactive fullscreen theater slideshow with auto-play kiosk mode.
   - Practice Email Client (Outlook) & Digital Class Notebook (OneNote).
 - **⌨️ Computer Skills Practice:** Typing Speed & Accuracy Tutor, File Explorer simulator, Task Manager monitor, and Paint canvas.
 - **🖥️ Configurable CBT Examination Engine:**

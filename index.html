@@ -251,12 +251,85 @@ table.sheet td.sel{background:#fff7e0;}
 .slide-thumb{border:2px solid var(--border-light);border-radius:6px;padding:8px;font-size:11px;cursor:pointer;background:#fff;position:relative;}
 .slide-thumb.active{border-color:var(--amber);}
 .slide-thumb .num{position:absolute;top:-8px;left:-8px;background:var(--ink);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center;}
-.slide-preview-box{border:2px solid #ccc;border-radius:8px;padding:26px;min-height:180px;background:#fff;position:relative;}
+.slide-preview-box{border:2px solid #ccc;border-radius:8px;padding:26px;min-height:180px;background:#fff;position:relative;overflow:hidden;transition:background 0.2s, color 0.2s;}
 .slide-preview-box .pagenum{position:absolute;bottom:8px;right:12px;font-size:10px;color:#999;}
 .slide-preview-box .logo{position:absolute;top:8px;right:12px;font-size:10px;font-weight:700;color:var(--amber-dim);}
 .bullet-row{display:flex;align-items:center;gap:8px;background:var(--paper-dim);border-radius:6px;padding:6px 8px;margin-bottom:6px;font-size:12.5px;}
 .bullet-row input[type=text]{flex:1;border:1px solid var(--border-light);border-radius:4px;padding:4px 6px;font-size:12.5px;}
 .bullet-row .mv{cursor:pointer;font-size:12px;background:#fff;border:1px solid var(--border-light);border-radius:4px;padding:2px 6px;}
+
+/* Slide Transitions */
+.slide-trans-fade{animation:pptFade 0.45s cubic-bezier(0.4,0,0.2,1) both;}
+.slide-trans-slide-left{animation:pptSlideLeft 0.45s cubic-bezier(0.22,1,0.36,1) both;}
+.slide-trans-slide-right{animation:pptSlideRight 0.45s cubic-bezier(0.22,1,0.36,1) both;}
+.slide-trans-slide-up{animation:pptSlideUp 0.45s cubic-bezier(0.22,1,0.36,1) both;}
+.slide-trans-zoom{animation:pptZoomIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both;}
+.slide-trans-wipe{animation:pptWipe 0.5s cubic-bezier(0.4,0,0.2,1) both;}
+.slide-trans-flip{animation:pptFlip 0.55s cubic-bezier(0.4,0,0.2,1) both;transform-style:preserve-3d;}
+
+@keyframes pptFade{from{opacity:0;}to{opacity:1;}}
+@keyframes pptSlideLeft{from{opacity:0;transform:translateX(70px);}to{opacity:1;transform:translateX(0);}}
+@keyframes pptSlideRight{from{opacity:0;transform:translateX(-70px);}to{opacity:1;transform:translateX(0);}}
+@keyframes pptSlideUp{from{opacity:0;transform:translateY(50px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pptZoomIn{from{opacity:0;transform:scale(0.86);}to{opacity:1;transform:scale(1);}}
+@keyframes pptWipe{from{clip-path:inset(0 100% 0 0);opacity:0.6;}to{clip-path:inset(0 0 0 0);opacity:1;}}
+@keyframes pptFlip{from{opacity:0;transform:perspective(800px) rotateY(-35deg);}to{opacity:1;transform:perspective(800px) rotateY(0deg);}}
+
+/* Bullet Entrance Animations */
+.bullet-anim-fly-bottom{animation:bulletFlyBottom 0.4s cubic-bezier(0.16,1,0.3,1) both;}
+.bullet-anim-fly-left{animation:bulletFlyLeft 0.4s cubic-bezier(0.16,1,0.3,1) both;}
+.bullet-anim-fade{animation:bulletFade 0.35s ease-out both;}
+.bullet-anim-zoom{animation:bulletZoom 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
+.bullet-anim-bounce{animation:bulletBounce 0.5s cubic-bezier(0.36,0.07,0.19,0.97) both;}
+
+@keyframes bulletFade{from{opacity:0;}to{opacity:1;}}
+@keyframes bulletFlyBottom{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes bulletFlyLeft{from{opacity:0;transform:translateX(-25px);}to{opacity:1;transform:translateX(0);}}
+@keyframes bulletZoom{from{opacity:0;transform:scale(0.6);}to{opacity:1;transform:scale(1);}}
+@keyframes bulletBounce{0%{opacity:0;transform:scale(0.4);}60%{opacity:1;transform:scale(1.08);}80%{transform:scale(0.96);}100%{opacity:1;transform:scale(1);}}
+
+/* Slide Motion Editor Grid */
+.ppt-motion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;background:var(--paper-dim);border:1px solid var(--border-light);border-radius:8px;padding:10px 12px;margin:10px 0;}
+.ppt-motion-col{display:flex;flex-direction:column;gap:3px;}
+.ppt-motion-col label{font-size:11px;font-weight:700;color:#5a5444;text-transform:uppercase;letter-spacing:0.3px;}
+.ppt-color-row{display:flex;align-items:center;gap:6px;}
+.ppt-swatch-list{display:flex;gap:5px;align-items:center;}
+.ppt-swatch{width:20px;height:20px;border-radius:50%;border:2px solid #ccc;cursor:pointer;transition:transform .15s,border-color .15s;}
+.ppt-swatch:hover{transform:scale(1.2);border-color:var(--amber);}
+
+/* Slide Preview Header */
+.slide-prev-header{display:flex;align-items:center;justify-content:space-between;margin:10px 0 6px;flex-wrap:wrap;gap:8px;}
+.slide-badge-row{display:flex;gap:6px;flex-wrap:wrap;}
+.slide-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;background:var(--paper-dim);border:1px solid var(--border-light);color:#6a6452;}
+
+/* Fullscreen Slide Show Theater */
+.slideshow-theater-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:#090b10;z-index:10001;display:flex;flex-direction:column;justify-content:space-between;padding:16px 24px;box-sizing:border-box;animation:fadeIn .2s ease-out;color:#f1f5f9;user-select:none;}
+.slideshow-topbar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1100px;margin:0 auto;}
+.slideshow-deck-title{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:#e2e8f0;}
+.slideshow-topbar-actions{display:flex;align-items:center;gap:8px;}
+.ss-btn{background:rgba(255,255,255,0.08);color:#e2e8f0;border:1px solid rgba(255,255,255,0.18);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s ease;display:inline-flex;align-items:center;gap:6px;}
+.ss-btn:hover{background:rgba(255,255,255,0.16);border-color:rgba(255,255,255,0.3);color:#fff;}
+.ss-btn.primary{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700;}
+.ss-btn.primary:hover{filter:brightness(1.1);}
+.ss-btn.close{background:rgba(239,68,68,0.18);color:#fca5a5;border-color:rgba(239,68,68,0.35);}
+.ss-btn.close:hover{background:rgba(239,68,68,0.35);color:#fff;}
+.slideshow-stage{flex:1;width:100%;max-width:1000px;margin:12px auto;display:flex;align-items:center;justify-content:center;position:relative;perspective:1200px;}
+.slideshow-screen{width:100%;aspect-ratio:16/9;max-height:70vh;background:#ffffff;color:#1e2432;border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.08);padding:38px 46px;box-sizing:border-box;position:relative;display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden;cursor:pointer;}
+.slideshow-logo{position:absolute;top:18px;right:24px;font-size:12px;font-weight:700;color:var(--amber-dim);letter-spacing:.5px;}
+.slideshow-pagenum{position:absolute;bottom:16px;right:24px;font-size:11.5px;font-weight:600;color:#94a3b8;}
+.slideshow-title{font-weight:800;font-size:30px;margin-bottom:18px;line-height:1.25;}
+.slideshow-bullets-wrap{display:flex;flex-direction:column;gap:12px;}
+.slideshow-bullet-point{font-size:17px;line-height:1.45;font-weight:500;}
+.slideshow-kiosk-bar-wrap{width:100%;max-width:1000px;margin:0 auto 6px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.slideshow-kiosk-bar{height:100%;width:0%;background:var(--amber);transition:width .1s linear;}
+.slideshow-controls{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1000px;margin:0 auto;gap:10px;flex-wrap:wrap;}
+.slideshow-nav-group{display:flex;gap:8px;align-items:center;}
+.slideshow-info-group{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;}
+.slideshow-counter{font-size:12.5px;font-weight:700;color:#f8fafc;}
+.slideshow-status{font-size:11px;color:#94a3b8;}
+.slideshow-help-group{display:flex;gap:6px;align-items:center;}
+.slideshow-key-hint{font-size:10.5px;color:#64748b;display:inline-flex;align-items:center;gap:3px;}
+.slideshow-key-hint kbd{background:rgba(255,255,255,0.12);color:#e2e8f0;padding:1px 5px;border-radius:3px;font-size:9.5px;border:1px solid rgba(255,255,255,0.2);}
 
 /* network lab */
 .device-card{background:#fff;border:1px solid var(--border-light);border-radius:8px;padding:10px 12px;font-size:12.5px;min-width:130px;text-align:center;}
@@ -3609,20 +3682,57 @@ let deck = [
 ];
 let master = { logo:false, logoText:"MY BRAND", pageNum:false };
 
-function renderSlideBox(box, slide, idx, total, masterOverride){
+function renderSlideBox(box, slide, idx, total, masterOverride, options){
   const m = masterOverride || master;
+  const opts = options || {};
   box.innerHTML = "";
-  if(m.logo) box.insertAdjacentHTML("beforeend", `<div class="logo">● ${m.logoText}</div>`);
+  if(slide.bg) box.style.background = slide.bg;
+  if(slide.color) box.style.color = slide.color;
+
+  const transList = ["slide-trans-fade","slide-trans-slide-left","slide-trans-slide-right","slide-trans-slide-up","slide-trans-zoom","slide-trans-wipe","slide-trans-flip"];
+  box.classList.remove(...transList);
+  if(opts.transitionClass && opts.transitionClass !== "slide-trans-none"){
+    void box.offsetWidth;
+    box.classList.add(opts.transitionClass);
+  }
+
+  if(m.logo) box.insertAdjacentHTML("beforeend", `<div class="logo">● ${m.logoText||"MY BRAND"}</div>`);
   const title = document.createElement("div");
-  title.style.cssText = `font-weight:700;font-size:20px;margin-bottom:14px;color:${slide.color||'#222'};`;
-  title.textContent = slide.title;
+  title.style.cssText = `font-weight:700;font-size:20px;margin-bottom:14px;color:${slide.color||'inherit'};`;
+  title.textContent = slide.title || "Untitled Slide";
   box.appendChild(title);
-  slide.bullets.forEach(b=>{
+
+  const bulletsWrap = document.createElement("div");
+  bulletsWrap.className = "slide-bullets-wrap";
+  box.appendChild(bulletsWrap);
+
+  const animClass = opts.animClass || (slide.animation && slide.animation !== "none" ? `bullet-anim-${slide.animation}` : "");
+  const revealLimit = opts.revealCount !== undefined ? opts.revealCount : (slide.bullets ? slide.bullets.length : 0);
+
+  (slide.bullets || []).forEach((b, bIdx)=>{
     const p = document.createElement("div");
-    p.style.cssText = `font-size:13px;margin-bottom:6px;color:${slide.color||'#444'};`;
-    p.textContent = "• " + b.text;
-    box.appendChild(p);
+    p.className = "slide-bullet-item";
+    p.style.cssText = `font-size:13px;margin-bottom:6px;line-height:1.45;color:${slide.color||'inherit'};`;
+
+    if(opts.stepByStep){
+      if(bIdx < revealLimit){
+        p.textContent = "• " + b.text;
+        if(animClass && (opts.allAnimated || (bIdx === revealLimit - 1 && opts.justRevealed))){
+          p.classList.add(animClass);
+        }
+      } else {
+        p.style.display = "none";
+      }
+    } else {
+      p.textContent = "• " + b.text;
+      if(animClass && (opts.animateBullets || opts.allAnimated)){
+        p.classList.add(animClass);
+        p.style.animationDelay = `${bIdx * 0.12}s`;
+      }
+    }
+    bulletsWrap.appendChild(p);
   });
+
   if(m.pageNum) box.insertAdjacentHTML("beforeend", `<div class="pagenum">${idx+1} / ${total}</div>`);
 }
 
@@ -3681,10 +3791,13 @@ function simSlides(content, mode){
        <button class="mini-btn" id="playBtn" style="margin-top:14px;">▶ Start Presentation</button>
        <div id="presentArea" style="display:none;margin-top:16px;">
         <div class="slide-preview-box" id="presBox" style="min-height:220px;"></div>
-        <div style="display:flex;justify-content:space-between;margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;margin-top:10px;align-items:center;flex-wrap:wrap;gap:8px;">
           <button class="tbtn" id="presPrev">◀ Previous</button>
           <span class="hint" id="presHint">Click "Reveal next" to show bullets one at a time.</span>
-          <button class="tbtn" id="presNext">Reveal next ▶</button>
+          <div style="display:flex;gap:6px;">
+            <button class="tbtn primary" id="presNext" style="font-weight:700;">Reveal next ▶</button>
+            <button class="tbtn" id="presTheater">⛶ Theater Mode</button>
+          </div>
         </div>
        </div>`);
     const pick = el.querySelector("#slPick");
@@ -3711,29 +3824,50 @@ function simSlides(content, mode){
     drawBullets();
 
     let presIdx = 0, revealCount = 0;
-    function drawPresent(){
+    function drawPresent(justRevealed = false, transition = false){
       const s = deck[presIdx];
       const box = el.querySelector("#presBox");
       const visibleBullets = s.bullets.filter((b,i)=> !b.reveal || i < revealCount);
-      renderSlideBox(box, {title:s.title, bullets:visibleBullets}, presIdx, deck.length);
+      renderSlideBox(box, {title:s.title, bullets:visibleBullets, bg:"#ffffff", color:"#1e2432", transition:s.transition||"fade", animation:s.animation||"fly-bottom"}, presIdx, deck.length, master, {
+        transitionClass: transition ? `slide-trans-${s.transition||'fade'}` : null,
+        animClass: `bullet-anim-${s.animation||'fly-bottom'}`,
+        stepByStep: true,
+        revealCount: visibleBullets.length,
+        justRevealed: justRevealed,
+        allAnimated: !justRevealed
+      });
       const remaining = s.bullets.filter(b=>b.reveal).length - revealCount;
       el.querySelector("#presHint").textContent = remaining>0 ? `${remaining} bullet(s) still hidden — click Reveal next.` : "All bullets shown — click Reveal next to advance slide.";
     }
     el.querySelector("#playBtn").addEventListener("click",()=>{
       presIdx = 0; revealCount = 0;
       el.querySelector("#presentArea").style.display = "block";
-      drawPresent();
+      drawPresent(false, true);
+    });
+    el.querySelector("#presTheater").addEventListener("click",()=>{
+      openSlideShowModal({name:"Topic 5: Presentation Lab", slides:deck, master:master}, presIdx);
     });
     el.querySelector("#presNext").addEventListener("click",()=>{
       const s = deck[presIdx];
       const revealTotal = s.bullets.filter(b=>b.reveal).length;
-      if(revealCount < revealTotal){ revealCount++; }
-      else if(presIdx < deck.length-1){ presIdx++; revealCount=0; }
-      drawPresent();
+      if(revealCount < revealTotal){
+        revealCount++;
+        drawPresent(true, false);
+      } else if(presIdx < deck.length-1){
+        presIdx++;
+        revealCount = 0;
+        drawPresent(false, true);
+      }
     });
     el.querySelector("#presPrev").addEventListener("click",()=>{
-      if(revealCount>0){ revealCount--; } else if(presIdx>0){ presIdx--; revealCount = deck[presIdx].bullets.filter(b=>b.reveal).length; }
-      drawPresent();
+      if(revealCount>0){
+        revealCount--;
+        drawPresent(false, false);
+      } else if(presIdx>0){
+        presIdx--;
+        revealCount = deck[presIdx].bullets.filter(b=>b.reveal).length;
+        drawPresent(false, true);
+      }
     });
   }
 }
@@ -3955,9 +4089,53 @@ let activeWordDoc = 0;
 let excelBooks = [{id:1, name:"Book1", sheets:[{name:"Sheet1", cells:{}, styles:{}}], activeSheet:0}];
 let activeExcelBook = 0;
 
-let pptDecks = [{id:1, name:"Presentation1",
-  slides:[{title:"Click to add title", bullets:[{text:"Click to add text",reveal:false}]}],
-  master:{logo:false, logoText:"MY BRAND", pageNum:false}}];
+let pptDecks = [{
+  id: 1,
+  name: "Digital Technologies Presentation",
+  master: {logo: true, logoText: "SS2 DIGITECH", pageNum: true},
+  slides: [
+    {
+      title: "Welcome to SS2 Digital Technologies",
+      bullets: [
+        {text: "Interactive Office Suite with PowerPoint features", reveal: true},
+        {text: "Slide Transitions: Fade, Push, Zoom, Wipe & Flip 3D", reveal: true},
+        {text: "Bullet Animations: Fly In, Fade In, Zoom & Bounce", reveal: true},
+        {text: "Click '▶ Start Slide Show' or press Space to experience it!", reveal: true}
+      ],
+      color: "#1e2432",
+      bg: "#ffffff",
+      transition: "fade",
+      animation: "fly-bottom",
+      animTrigger: "onclick"
+    },
+    {
+      title: "Transitions vs Object Animations",
+      bullets: [
+        {text: "Slide Transitions: Motion effects when switching whole slides", reveal: true},
+        {text: "Object Animations: Entrance effects for individual bullet lines", reveal: true},
+        {text: "Progressive Disclosure: Reveal points step-by-step as you speak", reveal: true}
+      ],
+      color: "#1e2432",
+      bg: "#f8fafc",
+      transition: "slide-left",
+      animation: "fly-left",
+      animTrigger: "onclick"
+    },
+    {
+      title: "Self-Running Kiosk Slide Show",
+      bullets: [
+        {text: "Supports automated timed looping (Kiosk Mode)", reveal: true},
+        {text: "Great for school trade fairs and hallway reception displays", reveal: true},
+        {text: "Full keyboard navigation: Space, Arrow keys, F (Fullscreen), and Esc", reveal: true}
+      ],
+      color: "#0f172a",
+      bg: "#ffffff",
+      transition: "zoom",
+      animation: "zoom",
+      animTrigger: "onclick"
+    }
+  ]
+}];
 let activePptDeck = 0;
 
 function downloadBlob(text, filename, type){
@@ -4148,6 +4326,278 @@ function renderExcelApp(wrap){
   loadBook();
 }
 
+/* ---------- POWERPOINT SLIDESHOW ENGINE ---------- */
+let activeSlideShowInstance = null;
+
+function openSlideShowModal(deckToPlay, startIndex){
+  if(!deckToPlay || !deckToPlay.slides || deckToPlay.slides.length === 0) return;
+  const host = document.getElementById("modalHost");
+  if(!host) return;
+
+  let curIdx = Math.max(0, Math.min(startIndex || 0, deckToPlay.slides.length - 1));
+  let curSlide = deckToPlay.slides[curIdx];
+  let curRevealed = curSlide.animTrigger === "all" ? (curSlide.bullets || []).length : 0;
+  let autoPlaySec = 0; // 0 = off, 3 = 3s, 5 = 5s
+  let autoPlayProgress = 0;
+  let autoPlayInterval = null;
+
+  host.innerHTML = `
+    <div class="slideshow-theater-modal" id="slideshowModal" tabindex="0">
+      <div class="slideshow-topbar">
+        <div class="slideshow-deck-title">
+          <span>📊</span> <span>${deckToPlay.name || "Presentation"}</span>
+          <span class="slide-badge" id="ssTransBadge">Transition: Fade</span>
+          <span class="slide-badge" id="ssAnimBadge">Animation: Fly In</span>
+        </div>
+        <div class="slideshow-topbar-actions">
+          <button class="ss-btn" id="ssAutoPlayBtn" title="Self-Running Kiosk Mode (A)">⏱ Auto-Play: OFF</button>
+          <button class="ss-btn" id="ssFullscreenBtn" title="Fullscreen (F)">⛶ Fullscreen</button>
+          <button class="ss-btn close" id="ssCloseBtn" title="Exit Slide Show (Esc)">✕ Exit</button>
+        </div>
+      </div>
+
+      <div class="slideshow-stage">
+        <div class="slideshow-screen" id="ssScreen" title="Click anywhere to advance"></div>
+      </div>
+
+      <div class="slideshow-kiosk-bar-wrap" id="ssKioskWrap" style="display:none;">
+        <div class="slideshow-kiosk-bar" id="ssKioskBar"></div>
+      </div>
+
+      <div class="slideshow-controls">
+        <div class="slideshow-nav-group">
+          <button class="ss-btn" id="ssPrevBtn">◀ Previous</button>
+          <button class="ss-btn primary" id="ssNextBtn">Reveal / Next ▶</button>
+        </div>
+        <div class="slideshow-info-group">
+          <span class="slideshow-counter" id="ssCounter">Slide 1 of ${deckToPlay.slides.length}</span>
+          <span class="slideshow-status" id="ssStatus">Click screen or press Space to advance</span>
+        </div>
+        <div class="slideshow-help-group">
+          <span class="slideshow-key-hint"><kbd>Space</kbd>/<kbd>→</kbd> Advance</span>
+          <span class="slideshow-key-hint"><kbd>←</kbd> Back</span>
+          <span class="slideshow-key-hint"><kbd>Esc</kbd> Exit</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const modal = host.querySelector("#slideshowModal");
+  modal.focus();
+
+  function renderCurrent(triggerTransition, justRevealed){
+    curSlide = deckToPlay.slides[curIdx];
+    const trans = curSlide.transition || "fade";
+    const anim = curSlide.animation || "fly-bottom";
+    const trigger = curSlide.animTrigger || "onclick";
+    const m = deckToPlay.master || {logo:false, logoText:"MY BRAND", pageNum:false};
+
+    modal.querySelector("#ssTransBadge").textContent = `Transition: ${trans.charAt(0).toUpperCase() + trans.slice(1)}`;
+    modal.querySelector("#ssAnimBadge").textContent = `Animation: ${anim.charAt(0).toUpperCase() + anim.slice(1)}`;
+    modal.querySelector("#ssCounter").textContent = `Slide ${curIdx + 1} of ${deckToPlay.slides.length}`;
+
+    const totalBullets = (curSlide.bullets || []).length;
+    let statusMsg = "";
+    if(trigger === "onclick"){
+      if(curRevealed < totalBullets){
+        statusMsg = `${curRevealed} of ${totalBullets} bullets revealed • Click or press Space to reveal next`;
+      } else {
+        statusMsg = curIdx < deckToPlay.slides.length - 1 ? `Slide complete • Click or press Space for next slide` : `Final slide reached • Press Esc to exit`;
+      }
+    } else {
+      statusMsg = curIdx < deckToPlay.slides.length - 1 ? `Click or press Space for next slide` : `Final slide reached • Press Esc to exit`;
+    }
+    modal.querySelector("#ssStatus").textContent = statusMsg;
+
+    const screen = modal.querySelector("#ssScreen");
+    screen.innerHTML = "";
+    screen.style.backgroundColor = curSlide.bg || "#ffffff";
+    screen.style.color = curSlide.color || "#1e2432";
+
+    const allTrans = ["slide-trans-fade","slide-trans-slide-left","slide-trans-slide-right","slide-trans-slide-up","slide-trans-zoom","slide-trans-wipe","slide-trans-flip"];
+    screen.classList.remove(...allTrans);
+    if(triggerTransition && trans !== "none"){
+      void screen.offsetWidth;
+      screen.classList.add(`slide-trans-${trans}`);
+    }
+
+    if(m.logo){
+      const l = document.createElement("div");
+      l.className = "slideshow-logo";
+      l.textContent = "● " + (m.logoText || "MY BRAND");
+      screen.appendChild(l);
+    }
+
+    const titleEl = document.createElement("div");
+    titleEl.className = "slideshow-title";
+    titleEl.style.color = curSlide.color || "inherit";
+    titleEl.textContent = curSlide.title || "Untitled Slide";
+    screen.appendChild(titleEl);
+
+    const bulletsWrap = document.createElement("div");
+    bulletsWrap.className = "slideshow-bullets-wrap";
+    screen.appendChild(bulletsWrap);
+
+    const animClass = anim !== "none" ? `bullet-anim-${anim}` : "";
+
+    (curSlide.bullets || []).forEach((b, bIdx)=>{
+      const bp = document.createElement("div");
+      bp.className = "slideshow-bullet-point";
+      bp.style.color = curSlide.color || "inherit";
+
+      if(trigger === "onclick"){
+        if(bIdx < curRevealed){
+          bp.textContent = "• " + b.text;
+          if(animClass && bIdx === curRevealed - 1 && justRevealed){
+            bp.classList.add(animClass);
+          }
+        } else {
+          bp.style.display = "none";
+        }
+      } else {
+        bp.textContent = "• " + b.text;
+        if(animClass && triggerTransition){
+          bp.classList.add(animClass);
+          bp.style.animationDelay = `${bIdx * 0.14}s`;
+        }
+      }
+      bulletsWrap.appendChild(bp);
+    });
+
+    if(m.pageNum){
+      const pg = document.createElement("div");
+      pg.className = "slideshow-pagenum";
+      pg.textContent = `${curIdx + 1} / ${deckToPlay.slides.length}`;
+      screen.appendChild(pg);
+    }
+  }
+
+  function advance(){
+    const totalBullets = (curSlide.bullets || []).length;
+    const trigger = curSlide.animTrigger || "onclick";
+    if(trigger === "onclick" && curRevealed < totalBullets){
+      curRevealed++;
+      renderCurrent(false, true);
+    } else if(curIdx < deckToPlay.slides.length - 1){
+      curIdx++;
+      curSlide = deckToPlay.slides[curIdx];
+      curRevealed = curSlide.animTrigger === "all" ? (curSlide.bullets || []).length : 0;
+      renderCurrent(true, false);
+    } else {
+      if(autoPlaySec > 0){
+        curIdx = 0;
+        curSlide = deckToPlay.slides[curIdx];
+        curRevealed = curSlide.animTrigger === "all" ? (curSlide.bullets || []).length : 0;
+        renderCurrent(true, false);
+      }
+    }
+    resetAutoPlay();
+  }
+
+  function goBack(){
+    const trigger = curSlide.animTrigger || "onclick";
+    if(trigger === "onclick" && curRevealed > 0){
+      curRevealed--;
+      renderCurrent(false, false);
+    } else if(curIdx > 0){
+      curIdx--;
+      curSlide = deckToPlay.slides[curIdx];
+      curRevealed = (curSlide.bullets || []).length;
+      renderCurrent(true, false);
+    }
+    resetAutoPlay();
+  }
+
+  function closeSlideShow(){
+    if(autoPlayInterval) clearInterval(autoPlayInterval);
+    if(document.fullscreenElement) {
+      try { document.exitFullscreen(); } catch(e){}
+    }
+    window.removeEventListener("keydown", onKeyDown);
+    host.innerHTML = "";
+  }
+
+  function resetAutoPlay(){
+    autoPlayProgress = 0;
+    const bar = modal.querySelector("#ssKioskBar");
+    if(bar) bar.style.width = "0%";
+  }
+
+  function toggleAutoPlay(){
+    const btn = modal.querySelector("#ssAutoPlayBtn");
+    const wrap = modal.querySelector("#ssKioskWrap");
+    if(autoPlaySec === 0){
+      autoPlaySec = 3;
+      btn.textContent = "⏱ Auto-Play: 3s";
+      btn.classList.add("primary");
+      wrap.style.display = "block";
+    } else if(autoPlaySec === 3){
+      autoPlaySec = 5;
+      btn.textContent = "⏱ Auto-Play: 5s";
+      btn.classList.add("primary");
+      wrap.style.display = "block";
+    } else {
+      autoPlaySec = 0;
+      btn.textContent = "⏱ Auto-Play: OFF";
+      btn.classList.remove("primary");
+      wrap.style.display = "none";
+    }
+    resetAutoPlay();
+  }
+
+  autoPlayInterval = setInterval(()=>{
+    if(autoPlaySec > 0){
+      autoPlayProgress += 100 / (autoPlaySec * 10);
+      const bar = modal.querySelector("#ssKioskBar");
+      if(bar) bar.style.width = `${Math.min(100, autoPlayProgress)}%`;
+      if(autoPlayProgress >= 100){
+        advance();
+      }
+    }
+  }, 100);
+
+  function onKeyDown(e){
+    if(!document.getElementById("slideshowModal")) return;
+    if(e.key === "Escape"){
+      e.preventDefault();
+      closeSlideShow();
+    } else if(e.key === " " || e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "Enter" || e.key === "PageDown"){
+      e.preventDefault();
+      advance();
+    } else if(e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp" || e.key === "Backspace"){
+      e.preventDefault();
+      goBack();
+    } else if(e.key === "f" || e.key === "F"){
+      e.preventDefault();
+      if(!document.fullscreenElement){
+        (modal || document.documentElement).requestFullscreen().catch(()=>{});
+      } else {
+        document.exitFullscreen().catch(()=>{});
+      }
+    } else if(e.key === "a" || e.key === "A"){
+      e.preventDefault();
+      toggleAutoPlay();
+    }
+  }
+
+  window.addEventListener("keydown", onKeyDown);
+
+  modal.querySelector("#ssScreen").addEventListener("click", advance);
+  modal.querySelector("#ssNextBtn").addEventListener("click", advance);
+  modal.querySelector("#ssPrevBtn").addEventListener("click", goBack);
+  modal.querySelector("#ssCloseBtn").addEventListener("click", closeSlideShow);
+  modal.querySelector("#ssAutoPlayBtn").addEventListener("click", toggleAutoPlay);
+  modal.querySelector("#ssFullscreenBtn").addEventListener("click", ()=>{
+    if(!document.fullscreenElement){
+      (modal || document.documentElement).requestFullscreen().catch(()=>{});
+    } else {
+      document.exitFullscreen().catch(()=>{});
+    }
+  });
+
+  renderCurrent(true, false);
+}
+
 /* ---------- POWERPOINT ---------- */
 function renderPptApp(wrap){
   const shell = document.createElement("div");
@@ -4161,29 +4611,95 @@ function renderPptApp(wrap){
       <label style="font-size:12px;display:block;margin-bottom:6px;"><input type="checkbox" id="pLogo"> Show logo</label>
       <input type="text" id="pLogoText" style="width:100%;padding:5px 8px;border:1px solid var(--border-light);border-radius:5px;font-size:12px;margin-bottom:6px;">
       <label style="font-size:12px;display:block;"><input type="checkbox" id="pPage"> Show page number</label>
-      <button class="tbtn" id="pptPlay" style="width:100%;margin-top:14px;">▶ Present</button>
+      <button class="tbtn primary" id="pptPlay" style="width:100%;margin-top:14px;background:var(--amber);color:var(--ink);font-weight:700;">▶ Start Slide Show</button>
     </div>
     <div class="office-main">
       <div class="office-toolbar">
         <button class="otbtn wide" id="pptAddSlide">+ Slide</button>
         <button class="otbtn wide" id="pptDelSlide">🗑 Delete slide</button>
+        <button class="otbtn wide" id="pptToolbarPlay" style="background:var(--amber);color:var(--ink);font-weight:700;">▶ Slide Show (F5)</button>
+        <button class="otbtn wide" id="pptTestAnim">⚡ Preview Animation</button>
         <button class="otbtn wide" id="pptDownload">⬇ Download outline (.txt)</button>
       </div>
       <div class="ppt-canvas">
         <div class="slide-list" id="pptSlideList"></div>
         <div style="flex:1;">
           <div class="field"><label>Title</label><input type="text" id="pTitle"></div>
-          <div class="field"><label>Slide text colour</label><input type="color" id="pColor" value="#222222" style="width:60px;height:34px;padding:2px;cursor:pointer;"></div>
-          <div class="field"><label>Bullet points (one per line)</label><textarea class="code" id="pBullets" style="min-height:100px;color:#1D2029;background:#fff;"></textarea></div>
-          <div class="hint" style="margin:10px 0 6px;">Live preview</div>
+
+          <div class="ppt-motion-grid">
+            <div class="ppt-motion-col">
+              <label>Slide Transition</label>
+              <div style="display:flex;gap:4px;">
+                <select id="pTransition" style="flex:1;font-size:12px;padding:4px 6px;">
+                  <option value="fade">Fade</option>
+                  <option value="slide-left">Push / Slide Left</option>
+                  <option value="slide-right">Push / Slide Right</option>
+                  <option value="slide-up">Slide Up</option>
+                  <option value="zoom">Zoom In</option>
+                  <option value="wipe">Wipe</option>
+                  <option value="flip">Flip 3D</option>
+                  <option value="none">None</option>
+                </select>
+                <button class="tbtn" id="pApplyTransAll" style="font-size:11px;padding:4px 6px;" title="Apply to all slides in deck">All</button>
+              </div>
+            </div>
+            <div class="ppt-motion-col">
+              <label>Bullet Animation (Entrance)</label>
+              <div style="display:flex;gap:4px;">
+                <select id="pAnimation" style="flex:1;font-size:12px;padding:4px 6px;">
+                  <option value="fly-bottom">Fly In (From Bottom)</option>
+                  <option value="fly-left">Fly In (From Left)</option>
+                  <option value="fade">Fade In</option>
+                  <option value="zoom">Zoom / Pop In</option>
+                  <option value="bounce">Bounce In</option>
+                  <option value="none">None (Instant)</option>
+                </select>
+                <button class="tbtn" id="pApplyAnimAll" style="font-size:11px;padding:4px 6px;" title="Apply to all slides in deck">All</button>
+              </div>
+            </div>
+            <div class="ppt-motion-col">
+              <label>Animation Progression</label>
+              <select id="pAnimTrigger" style="font-size:12px;padding:4px 6px;">
+                <option value="onclick">On Click (Step-by-Step Reveal)</option>
+                <option value="all">All At Once (Staggered Entrance)</option>
+              </select>
+            </div>
+            <div class="ppt-motion-col">
+              <label>Slide Colors</label>
+              <div class="ppt-color-row">
+                <input type="color" id="pColor" value="#1e2432" title="Text Color" style="width:28px;height:26px;padding:1px;cursor:pointer;border-radius:4px;">
+                <input type="color" id="pBg" value="#ffffff" title="Background Color" style="width:28px;height:26px;padding:1px;cursor:pointer;border-radius:4px;">
+                <div class="ppt-swatch-list">
+                  <span class="ppt-swatch" data-bg="#ffffff" data-color="#1e2432" title="Light" style="background:#ffffff;"></span>
+                  <span class="ppt-swatch" data-bg="#f8fafc" data-color="#1e293b" title="Soft Blue" style="background:#f8fafc;"></span>
+                  <span class="ppt-swatch" data-bg="#fffbf0" data-color="#2d2616" title="Warm" style="background:#fffbf0;"></span>
+                  <span class="ppt-swatch" data-bg="#1e2230" data-color="#f8fafc" title="Dark Slate" style="background:#1e2230;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field"><label>Bullet points (one per line)</label><textarea class="code" id="pBullets" style="min-height:95px;color:#1D2029;background:#fff;"></textarea></div>
+
+          <div class="slide-prev-header">
+            <div class="slide-badge-row">
+              <span class="slide-badge" id="prevBadgeTrans">Transition: Fade</span>
+              <span class="slide-badge" id="prevBadgeAnim">Animation: Fly In</span>
+              <span class="slide-badge" id="prevBadgeTrigger">Mode: On-Click</span>
+            </div>
+            <button class="tbtn" id="pReplayPrevBtn" style="font-size:11.5px;padding:3px 8px;">▶ Replay Animation</button>
+          </div>
           <div class="slide-preview-box" id="pptPrev"></div>
         </div>
       </div>
       <div id="pptPresentArea" style="display:none;padding:18px;">
         <div class="slide-preview-box" id="presBox2" style="min-height:220px;"></div>
-        <div style="display:flex;justify-content:space-between;margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;margin-top:10px;align-items:center;flex-wrap:wrap;gap:8px;">
           <button class="tbtn" id="pPrev">◀ Previous</button>
-          <button class="tbtn" id="pClose">Close</button>
+          <div style="display:flex;gap:6px;">
+            <button class="tbtn primary" id="pLaunchFull" style="font-weight:700;">⛶ Theater Slide Show</button>
+            <button class="tbtn" id="pClose">Close</button>
+          </div>
           <button class="tbtn" id="pNext">Next ▶</button>
         </div>
       </div>
@@ -4214,50 +4730,153 @@ function renderPptApp(wrap){
   }
   function loadSlide(){
     const s = deck().slides[activeSlide];
-    shell.querySelector("#pTitle").value = s.title;
-    shell.querySelector("#pColor").value = s.color || "#222222";
-    shell.querySelector("#pBullets").value = s.bullets.map(b=>b.text).join("\n");
-    drawSlideList(); drawPreview();
+    if(!s.transition) s.transition = "fade";
+    if(!s.animation) s.animation = "fly-bottom";
+    if(!s.animTrigger) s.animTrigger = "onclick";
+    if(!s.bg) s.bg = "#ffffff";
+    if(!s.color) s.color = "#1e2432";
+
+    shell.querySelector("#pTitle").value = s.title || "";
+    shell.querySelector("#pColor").value = s.color;
+    shell.querySelector("#pBg").value = s.bg;
+    shell.querySelector("#pTransition").value = s.transition;
+    shell.querySelector("#pAnimation").value = s.animation;
+    shell.querySelector("#pAnimTrigger").value = s.animTrigger;
+    shell.querySelector("#pBullets").value = (s.bullets||[]).map(b=>b.text).join("\n");
+
+    shell.querySelector("#prevBadgeTrans").textContent = `Transition: ${s.transition.charAt(0).toUpperCase() + s.transition.slice(1)}`;
+    shell.querySelector("#prevBadgeAnim").textContent = `Animation: ${s.animation.charAt(0).toUpperCase() + s.animation.slice(1)}`;
+    shell.querySelector("#prevBadgeTrigger").textContent = s.animTrigger === "onclick" ? "Mode: On-Click" : "Mode: All-at-Once";
+
+    drawSlideList();
+    drawPreview(false);
   }
-  function drawPreview(){ renderSlideBox(shell.querySelector("#pptPrev"), deck().slides[activeSlide], activeSlide, deck().slides.length, deck().master); }
+
+  function drawPreview(triggerAnim = false){
+    const s = deck().slides[activeSlide];
+    renderSlideBox(shell.querySelector("#pptPrev"), s, activeSlide, deck().slides.length, deck().master, {
+      transitionClass: triggerAnim ? `slide-trans-${s.transition || 'fade'}` : null,
+      animClass: `bullet-anim-${s.animation || 'fly-bottom'}`,
+      animateBullets: triggerAnim,
+      allAnimated: triggerAnim
+    });
+  }
+
   function loadDeck(){
     drawDeckList();
     shell.querySelector("#pLogo").checked = deck().master.logo;
-    shell.querySelector("#pLogoText").value = deck().master.logoText;
+    shell.querySelector("#pLogoText").value = deck().master.logoText || "MY BRAND";
     shell.querySelector("#pPage").checked = deck().master.pageNum;
     loadSlide();
   }
 
-  shell.querySelector("#pTitle").addEventListener("input",e=>{ deck().slides[activeSlide].title = e.target.value; drawSlideList(); drawPreview(); });
-  shell.querySelector("#pColor").addEventListener("input",e=>{ deck().slides[activeSlide].color = e.target.value; drawPreview(); });
+  shell.querySelector("#pTitle").addEventListener("input",e=>{ deck().slides[activeSlide].title = e.target.value; drawSlideList(); drawPreview(false); });
+  shell.querySelector("#pColor").addEventListener("input",e=>{ deck().slides[activeSlide].color = e.target.value; drawPreview(false); });
+  shell.querySelector("#pBg").addEventListener("input",e=>{ deck().slides[activeSlide].bg = e.target.value; drawPreview(false); });
+  shell.querySelectorAll(".ppt-swatch").forEach(sw=>{
+    sw.addEventListener("click",()=>{
+      deck().slides[activeSlide].bg = sw.dataset.bg;
+      deck().slides[activeSlide].color = sw.dataset.color;
+      shell.querySelector("#pBg").value = sw.dataset.bg;
+      shell.querySelector("#pColor").value = sw.dataset.color;
+      drawPreview(false);
+    });
+  });
+
+  shell.querySelector("#pTransition").addEventListener("change",e=>{
+    deck().slides[activeSlide].transition = e.target.value;
+    shell.querySelector("#prevBadgeTrans").textContent = `Transition: ${e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)}`;
+    drawPreview(true);
+  });
+  shell.querySelector("#pApplyTransAll").addEventListener("click",()=>{
+    const t = shell.querySelector("#pTransition").value;
+    deck().slides.forEach(s=>{ s.transition = t; });
+    const btn = shell.querySelector("#pApplyTransAll");
+    btn.textContent = "✓";
+    setTimeout(()=>{ btn.textContent = "All"; }, 1200);
+  });
+
+  shell.querySelector("#pAnimation").addEventListener("change",e=>{
+    deck().slides[activeSlide].animation = e.target.value;
+    shell.querySelector("#prevBadgeAnim").textContent = `Animation: ${e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1)}`;
+    drawPreview(true);
+  });
+  shell.querySelector("#pApplyAnimAll").addEventListener("click",()=>{
+    const a = shell.querySelector("#pAnimation").value;
+    deck().slides.forEach(s=>{ s.animation = a; });
+    const btn = shell.querySelector("#pApplyAnimAll");
+    btn.textContent = "✓";
+    setTimeout(()=>{ btn.textContent = "All"; }, 1200);
+  });
+
+  shell.querySelector("#pAnimTrigger").addEventListener("change",e=>{
+    deck().slides[activeSlide].animTrigger = e.target.value;
+    shell.querySelector("#prevBadgeTrigger").textContent = e.target.value === "onclick" ? "Mode: On-Click" : "Mode: All-at-Once";
+    drawPreview(true);
+  });
+
+  shell.querySelector("#pReplayPrevBtn").addEventListener("click",()=>drawPreview(true));
+  shell.querySelector("#pptTestAnim").addEventListener("click",()=>drawPreview(true));
+
   shell.querySelector("#pBullets").addEventListener("input",e=>{
     const lines = e.target.value.split("\n").filter(l=>l.trim()!=="");
-    deck().slides[activeSlide].bullets = lines.map((l,i)=>({text:l, reveal:false}));
-    drawPreview();
+    deck().slides[activeSlide].bullets = lines.map((l)=>({text:l, reveal:true}));
+    drawPreview(false);
   });
-  shell.querySelector("#pptAddSlide").addEventListener("click",()=>{ deck().slides.push({title:"New Slide",bullets:[{text:"First point",reveal:false}]}); activeSlide=deck().slides.length-1; loadSlide(); });
+  shell.querySelector("#pptAddSlide").addEventListener("click",()=>{
+    deck().slides.push({
+      title:"New Slide",
+      bullets:[{text:"First point",reveal:true}],
+      color:"#1e2432",
+      bg:"#ffffff",
+      transition:"fade",
+      animation:"fly-bottom",
+      animTrigger:"onclick"
+    });
+    activeSlide=deck().slides.length-1; loadSlide();
+  });
   shell.querySelector("#pptDelSlide").addEventListener("click",()=>{ if(deck().slides.length>1){ deck().slides.splice(activeSlide,1); activeSlide=Math.max(0,activeSlide-1); loadSlide(); } });
   shell.querySelector("#pptNewDeck").addEventListener("click",()=>{
-    pptDecks.push({id:Date.now(), name:"Presentation"+(pptDecks.length+1), slides:[{title:"Click to add title",bullets:[{text:"Click to add text",reveal:false}]}], master:{logo:false,logoText:"MY BRAND",pageNum:false}});
+    pptDecks.push({
+      id:Date.now(),
+      name:"Presentation"+(pptDecks.length+1),
+      slides:[{title:"Click to add title",bullets:[{text:"Click to add text",reveal:true}],color:"#1e2432",bg:"#ffffff",transition:"fade",animation:"fly-bottom",animTrigger:"onclick"}],
+      master:{logo:false,logoText:"MY BRAND",pageNum:false}
+    });
     activePptDeck = pptDecks.length-1; activeSlide=0; loadDeck();
   });
-  shell.querySelector("#pLogo").addEventListener("change",e=>{ deck().master.logo=e.target.checked; drawPreview(); });
-  shell.querySelector("#pLogoText").addEventListener("input",e=>{ deck().master.logoText=e.target.value; drawPreview(); });
-  shell.querySelector("#pPage").addEventListener("change",e=>{ deck().master.pageNum=e.target.checked; drawPreview(); });
+  shell.querySelector("#pLogo").addEventListener("change",e=>{ deck().master.logo=e.target.checked; drawPreview(false); });
+  shell.querySelector("#pLogoText").addEventListener("input",e=>{ deck().master.logoText=e.target.value; drawPreview(false); });
+  shell.querySelector("#pPage").addEventListener("change",e=>{ deck().master.pageNum=e.target.checked; drawPreview(false); });
   shell.querySelector("#pptDownload").addEventListener("click",()=>{
-    const txt = deck().slides.map((s,i)=>`Slide ${i+1}: ${s.title}\n` + s.bullets.map(b=>"  • "+b.text).join("\n")).join("\n\n");
+    const txt = deck().slides.map((s,i)=>`Slide ${i+1}: ${s.title}\nTransition: ${s.transition || 'fade'} | Animation: ${s.animation || 'fly-bottom'}\n` + (s.bullets||[]).map(b=>"  • "+b.text).join("\n")).join("\n\n");
     downloadBlob(txt, deck().name.replace(/[^a-z0-9]+/gi,"_")+"_outline.txt", "text/plain");
   });
 
+  function startSlideShow(){
+    openSlideShowModal(deck(), activeSlide);
+  }
+
+  shell.querySelector("#pptPlay").addEventListener("click", startSlideShow);
+  shell.querySelector("#pptToolbarPlay").addEventListener("click", startSlideShow);
+
   let presIdx = 0;
-  shell.querySelector("#pptPlay").addEventListener("click",()=>{
-    presIdx = 0;
-    shell.querySelector("#pptPresentArea").style.display = "block";
-    renderSlideBox(shell.querySelector("#presBox2"), deck().slides[presIdx], presIdx, deck().slides.length, deck().master);
-  });
-  shell.querySelector("#pNext").addEventListener("click",()=>{ if(presIdx<deck().slides.length-1){ presIdx++; renderSlideBox(shell.querySelector("#presBox2"), deck().slides[presIdx], presIdx, deck().slides.length, deck().master); } });
-  shell.querySelector("#pPrev").addEventListener("click",()=>{ if(presIdx>0){ presIdx--; renderSlideBox(shell.querySelector("#presBox2"), deck().slides[presIdx], presIdx, deck().slides.length, deck().master); } });
+  function renderInlinePres(){
+    const s = deck().slides[presIdx];
+    renderSlideBox(shell.querySelector("#presBox2"), s, presIdx, deck().slides.length, deck().master, {
+      transitionClass: `slide-trans-${s.transition||'fade'}`,
+      animClass: `bullet-anim-${s.animation||'fly-bottom'}`,
+      animateBullets: true,
+      allAnimated: true
+    });
+  }
+  shell.querySelector("#pNext").addEventListener("click",()=>{ if(presIdx<deck().slides.length-1){ presIdx++; renderInlinePres(); } });
+  shell.querySelector("#pPrev").addEventListener("click",()=>{ if(presIdx>0){ presIdx--; renderInlinePres(); } });
   shell.querySelector("#pClose").addEventListener("click",()=>{ shell.querySelector("#pptPresentArea").style.display = "none"; });
+  shell.querySelector("#pLaunchFull").addEventListener("click",()=>{
+    shell.querySelector("#pptPresentArea").style.display = "none";
+    openSlideShowModal(deck(), presIdx);
+  });
 
   loadDeck();
 }
@@ -5964,6 +6583,11 @@ window.addEventListener("mousemove", (e) => {
 // Keyboard Navigation & Shortcuts
 window.addEventListener("keydown", (e) => {
   const isInput = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement && document.activeElement.tagName);
+  if(e.key === "F5" && state.view === "office" && state.officeApp === "powerpoint" && pptDecks[activePptDeck]){
+    e.preventDefault();
+    openSlideShowModal(pptDecks[activePptDeck], 0);
+    return;
+  }
   if(isInput && !e.altKey && e.key !== "Escape") return;
 
   if(e.key === "Escape"){
