@@ -251,42 +251,74 @@ table.sheet td.sel{background:#fff7e0;}
 .slide-thumb{border:2px solid var(--border-light);border-radius:6px;padding:8px;font-size:11px;cursor:pointer;background:#fff;position:relative;}
 .slide-thumb.active{border-color:var(--amber);}
 .slide-thumb .num{position:absolute;top:-8px;left:-8px;background:var(--ink);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center;}
-.slide-preview-box{border:2px solid #ccc;border-radius:8px;padding:26px;min-height:180px;background:#fff;position:relative;overflow:hidden;transition:background 0.2s, color 0.2s;}
-.slide-preview-box .pagenum{position:absolute;bottom:8px;right:12px;font-size:10px;color:#999;}
-.slide-preview-box .logo{position:absolute;top:8px;right:12px;font-size:10px;font-weight:700;color:var(--amber-dim);}
+.slide-preview-box{border:2px solid #ccc;border-radius:8px;padding:0;min-height:220px;height:240px;background:#fff;position:relative;overflow:hidden;}
+.slide-preview-box .slide-surface{padding:14px 18px;}
+.slide-preview-box .slide-surface .slideshow-title{font-size:17px;margin-bottom:10px;}
+.slide-preview-box .slide-surface .slideshow-bullet-point{font-size:12px;line-height:1.35;gap:6px;}
+.slide-preview-box .slide-surface .slideshow-logo{font-size:10px;top:10px;right:12px;}
+.slide-preview-box .slide-surface .slideshow-pagenum{font-size:10px;bottom:8px;right:12px;}
 .bullet-row{display:flex;align-items:center;gap:8px;background:var(--paper-dim);border-radius:6px;padding:6px 8px;margin-bottom:6px;font-size:12.5px;}
 .bullet-row input[type=text]{flex:1;border:1px solid var(--border-light);border-radius:4px;padding:4px 6px;font-size:12.5px;}
 .bullet-row .mv{cursor:pointer;font-size:12px;background:#fff;border:1px solid var(--border-light);border-radius:4px;padding:2px 6px;}
 
-/* Slide Transitions */
-.slide-trans-fade{animation:pptFade 0.45s cubic-bezier(0.4,0,0.2,1) both;}
-.slide-trans-slide-left{animation:pptSlideLeft 0.45s cubic-bezier(0.22,1,0.36,1) both;}
-.slide-trans-slide-right{animation:pptSlideRight 0.45s cubic-bezier(0.22,1,0.36,1) both;}
-.slide-trans-slide-up{animation:pptSlideUp 0.45s cubic-bezier(0.22,1,0.36,1) both;}
-.slide-trans-zoom{animation:pptZoomIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both;}
-.slide-trans-wipe{animation:pptWipe 0.5s cubic-bezier(0.4,0,0.2,1) both;}
-.slide-trans-flip{animation:pptFlip 0.55s cubic-bezier(0.4,0,0.2,1) both;transform-style:preserve-3d;}
+/* Slide Viewport & Surface */
+.slide-viewport{position:relative;width:100%;height:100%;min-height:100%;overflow:hidden;border-radius:inherit;perspective:1200px;background:#fff;}
+.slide-surface{position:absolute;top:0;left:0;width:100%;height:100%;box-sizing:border-box;padding:24px 28px;display:flex;flex-direction:column;justify-content:flex-start;border-radius:inherit;background:#ffffff;color:#1e2432;overflow:hidden;backface-visibility:hidden;transform-origin:center center;}
+.slideshow-screen .slide-surface{padding:44px 54px;}
 
-@keyframes pptFade{from{opacity:0;}to{opacity:1;}}
-@keyframes pptSlideLeft{from{opacity:0;transform:translateX(70px);}to{opacity:1;transform:translateX(0);}}
-@keyframes pptSlideRight{from{opacity:0;transform:translateX(-70px);}to{opacity:1;transform:translateX(0);}}
-@keyframes pptSlideUp{from{opacity:0;transform:translateY(50px);}to{opacity:1;transform:translateY(0);}}
-@keyframes pptZoomIn{from{opacity:0;transform:scale(0.86);}to{opacity:1;transform:scale(1);}}
-@keyframes pptWipe{from{clip-path:inset(0 100% 0 0);opacity:0.6;}to{clip-path:inset(0 0 0 0);opacity:1;}}
-@keyframes pptFlip{from{opacity:0;transform:perspective(800px) rotateY(-35deg);}to{opacity:1;transform:perspective(800px) rotateY(0deg);}}
+/* Two-Slide Transition Keyframes & Classes */
+@keyframes transFadeIn{from{opacity:0;transform:scale(0.96);}to{opacity:1;transform:scale(1);}}
+@keyframes transFadeOut{from{opacity:1;transform:scale(1);}to{opacity:0;transform:scale(1.04);}}
+.trans-fade-in{animation:transFadeIn .5s cubic-bezier(0.4,0,0.2,1) both;z-index:2;}
+.trans-fade-out{animation:transFadeOut .5s cubic-bezier(0.4,0,0.2,1) both;z-index:1;pointer-events:none;}
+
+@keyframes transSlideLeftIn{from{transform:translateX(100%);}to{transform:translateX(0);}}
+@keyframes transSlideLeftOut{from{transform:translateX(0);}to{transform:translateX(-100%);}}
+.trans-slide-left-in{animation:transSlideLeftIn .55s cubic-bezier(0.22,1,0.36,1) both;z-index:2;}
+.trans-slide-left-out{animation:transSlideLeftOut .55s cubic-bezier(0.22,1,0.36,1) both;z-index:1;pointer-events:none;}
+
+@keyframes transSlideRightIn{from{transform:translateX(-100%);}to{transform:translateX(0);}}
+@keyframes transSlideRightOut{from{transform:translateX(0);}to{transform:translateX(100%);}}
+.trans-slide-right-in{animation:transSlideRightIn .55s cubic-bezier(0.22,1,0.36,1) both;z-index:2;}
+.trans-slide-right-out{animation:transSlideRightOut .55s cubic-bezier(0.22,1,0.36,1) both;z-index:1;pointer-events:none;}
+
+@keyframes transSlideUpIn{from{transform:translateY(100%);}to{transform:translateY(0);}}
+@keyframes transSlideUpOut{from{transform:translateY(0);}to{transform:translateY(-100%);}}
+.trans-slide-up-in{animation:transSlideUpIn .55s cubic-bezier(0.22,1,0.36,1) both;z-index:2;}
+.trans-slide-up-out{animation:transSlideUpOut .55s cubic-bezier(0.22,1,0.36,1) both;z-index:1;pointer-events:none;}
+
+@keyframes transZoomIn{from{opacity:0;transform:scale(0.65);}to{opacity:1;transform:scale(1);}}
+@keyframes transZoomOut{from{opacity:1;transform:scale(1);}to{opacity:0;transform:scale(1.25);}}
+.trans-zoom-in{animation:transZoomIn .55s cubic-bezier(0.34,1.4,0.64,1) both;z-index:2;}
+.trans-zoom-out{animation:transZoomOut .45s cubic-bezier(0.4,0,0.2,1) both;z-index:1;pointer-events:none;}
+
+@keyframes transWipeIn{from{clip-path:inset(0 100% 0 0);opacity:.7;}to{clip-path:inset(0 0 0 0);opacity:1;}}
+.trans-wipe-in{animation:transWipeIn .6s cubic-bezier(0.25,1,0.5,1) both;z-index:2;}
+.trans-wipe-out{z-index:1;pointer-events:none;}
+
+@keyframes transFlipIn{from{opacity:0;transform:rotateY(90deg) scale(0.92);}to{opacity:1;transform:rotateY(0deg) scale(1);}}
+@keyframes transFlipOut{from{opacity:1;transform:rotateY(0deg) scale(1);}to{opacity:0;transform:rotateY(-90deg) scale(0.92);}}
+.trans-flip-in{animation:transFlipIn .6s cubic-bezier(0.4,0,0.2,1) both;z-index:2;}
+.trans-flip-out{animation:transFlipOut .6s cubic-bezier(0.4,0,0.2,1) both;z-index:1;pointer-events:none;}
 
 /* Bullet Entrance Animations */
-.bullet-anim-fly-bottom{animation:bulletFlyBottom 0.4s cubic-bezier(0.16,1,0.3,1) both;}
-.bullet-anim-fly-left{animation:bulletFlyLeft 0.4s cubic-bezier(0.16,1,0.3,1) both;}
-.bullet-anim-fade{animation:bulletFade 0.35s ease-out both;}
-.bullet-anim-zoom{animation:bulletZoom 0.4s cubic-bezier(0.34,1.56,0.64,1) both;}
-.bullet-anim-bounce{animation:bulletBounce 0.5s cubic-bezier(0.36,0.07,0.19,0.97) both;}
+@keyframes bulletFlyBottom{0%{opacity:0;transform:translateY(40px);}60%{opacity:1;}100%{opacity:1;transform:translateY(0);}}
+@keyframes bulletFlyLeft{0%{opacity:0;transform:translateX(-55px);}60%{opacity:1;}100%{opacity:1;transform:translateX(0);}}
+@keyframes bulletFade{0%{opacity:0;filter:blur(4px);}100%{opacity:1;filter:blur(0);}}
+@keyframes bulletZoom{0%{opacity:0;transform:scale(0.35);}75%{opacity:1;transform:scale(1.08);}100%{opacity:1;transform:scale(1);}}
+@keyframes bulletBounce{0%{opacity:0;transform:translateY(-40px);}45%{opacity:1;transform:translateY(10px);}70%{transform:translateY(-4px);}100%{opacity:1;transform:translateY(0);}}
 
-@keyframes bulletFade{from{opacity:0;}to{opacity:1;}}
-@keyframes bulletFlyBottom{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-@keyframes bulletFlyLeft{from{opacity:0;transform:translateX(-25px);}to{opacity:1;transform:translateX(0);}}
-@keyframes bulletZoom{from{opacity:0;transform:scale(0.6);}to{opacity:1;transform:scale(1);}}
-@keyframes bulletBounce{0%{opacity:0;transform:scale(0.4);}60%{opacity:1;transform:scale(1.08);}80%{transform:scale(0.96);}100%{opacity:1;transform:scale(1);}}
+.bullet-anim-fly-bottom{animation:bulletFlyBottom .55s cubic-bezier(0.16,1,0.3,1) both;}
+.bullet-anim-fly-left{animation:bulletFlyLeft .55s cubic-bezier(0.16,1,0.3,1) both;}
+.bullet-anim-fade{animation:bulletFade .55s ease-out both;}
+.bullet-anim-zoom{animation:bulletZoom .55s cubic-bezier(0.34,1.56,0.64,1) both;}
+.bullet-anim-bounce{animation:bulletBounce .65s cubic-bezier(0.36,0.07,0.19,0.97) both;}
+
+/* Slide Bullets Layout */
+.slide-bullets-wrap,.slideshow-bullets-wrap{display:flex;flex-direction:column;gap:10px;flex:1;overflow:hidden;}
+.slide-bullet-item,.slideshow-bullet-point{font-size:17px;line-height:1.5;font-weight:500;display:flex;align-items:flex-start;gap:8px;}
+.bullet-dot{color:var(--amber);font-weight:800;user-select:none;}
+.slide-bullet-item.hidden-bullet,.slideshow-bullet-point.hidden-bullet{display:none !important;}
 
 /* Slide Motion Editor Grid */
 .ppt-motion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;background:var(--paper-dim);border:1px solid var(--border-light);border-radius:8px;padding:10px 12px;margin:10px 0;}
@@ -313,16 +345,14 @@ table.sheet td.sel{background:#fff7e0;}
 .ss-btn.primary:hover{filter:brightness(1.1);}
 .ss-btn.close{background:rgba(239,68,68,0.18);color:#fca5a5;border-color:rgba(239,68,68,0.35);}
 .ss-btn.close:hover{background:rgba(239,68,68,0.35);color:#fff;}
-.slideshow-stage{flex:1;width:100%;max-width:1000px;margin:12px auto;display:flex;align-items:center;justify-content:center;position:relative;perspective:1200px;}
-.slideshow-screen{width:100%;aspect-ratio:16/9;max-height:70vh;background:#ffffff;color:#1e2432;border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.08);padding:38px 46px;box-sizing:border-box;position:relative;display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden;cursor:pointer;}
-.slideshow-logo{position:absolute;top:18px;right:24px;font-size:12px;font-weight:700;color:var(--amber-dim);letter-spacing:.5px;}
-.slideshow-pagenum{position:absolute;bottom:16px;right:24px;font-size:11.5px;font-weight:600;color:#94a3b8;}
-.slideshow-title{font-weight:800;font-size:30px;margin-bottom:18px;line-height:1.25;}
-.slideshow-bullets-wrap{display:flex;flex-direction:column;gap:12px;}
-.slideshow-bullet-point{font-size:17px;line-height:1.45;font-weight:500;}
-.slideshow-kiosk-bar-wrap{width:100%;max-width:1000px;margin:0 auto 6px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.slideshow-stage{flex:1;width:100%;max-width:1040px;margin:12px auto;display:flex;align-items:center;justify-content:center;position:relative;perspective:1200px;}
+.slideshow-screen{width:100%;aspect-ratio:16/9;max-height:72vh;min-height:380px;background:#ffffff;color:#1e2432;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.85),0 0 0 1px rgba(255,255,255,0.1);padding:0;box-sizing:border-box;position:relative;overflow:hidden;cursor:pointer;}
+.slideshow-logo{position:absolute;top:20px;right:26px;font-size:12.5px;font-weight:700;color:var(--amber-dim);letter-spacing:.5px;z-index:5;}
+.slideshow-pagenum{position:absolute;bottom:18px;right:26px;font-size:12px;font-weight:600;color:#94a3b8;z-index:5;}
+.slideshow-title{font-weight:800;font-size:30px;margin-bottom:20px;line-height:1.25;}
+.slideshow-kiosk-bar-wrap{width:100%;max-width:1040px;margin:0 auto 6px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
 .slideshow-kiosk-bar{height:100%;width:0%;background:var(--amber);transition:width .1s linear;}
-.slideshow-controls{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1000px;margin:0 auto;gap:10px;flex-wrap:wrap;}
+.slideshow-controls{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1040px;margin:0 auto;gap:10px;flex-wrap:wrap;}
 .slideshow-nav-group{display:flex;gap:8px;align-items:center;}
 .slideshow-info-group{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;}
 .slideshow-counter{font-size:12.5px;font-weight:700;color:#f8fafc;}
@@ -3686,55 +3716,78 @@ let master = { logo:false, logoText:"MY BRAND", pageNum:false };
 function renderSlideBox(box, slide, idx, total, masterOverride, options){
   const m = masterOverride || master;
   const opts = options || {};
-  box.innerHTML = "";
-  if(slide.bg) box.style.background = slide.bg;
-  if(slide.color) box.style.color = slide.color;
 
-  const transList = ["slide-trans-fade","slide-trans-slide-left","slide-trans-slide-right","slide-trans-slide-up","slide-trans-zoom","slide-trans-wipe","slide-trans-flip"];
-  box.classList.remove(...transList);
-  if(opts.transitionClass && opts.transitionClass !== "slide-trans-none"){
-    void box.offsetWidth;
-    box.classList.add(opts.transitionClass);
-  }
+  function buildSurface(surface){
+    surface.style.background = slide.bg || '#ffffff';
+    surface.style.color = slide.color || '#1e2432';
+    if(m.logo) surface.insertAdjacentHTML("beforeend", `<div class="slideshow-logo">● ${m.logoText||"MY BRAND"}</div>`);
+    const title = document.createElement("div");
+    title.className = "slideshow-title";
+    title.style.cssText = `font-size:17px;margin-bottom:10px;color:${slide.color||'inherit'};`;
+    title.textContent = slide.title || "Untitled Slide";
+    surface.appendChild(title);
 
-  if(m.logo) box.insertAdjacentHTML("beforeend", `<div class="logo">● ${m.logoText||"MY BRAND"}</div>`);
-  const title = document.createElement("div");
-  title.style.cssText = `font-weight:700;font-size:20px;margin-bottom:14px;color:${slide.color||'inherit'};`;
-  title.textContent = slide.title || "Untitled Slide";
-  box.appendChild(title);
+    const bulletsWrap = document.createElement("div");
+    bulletsWrap.className = "slideshow-bullets-wrap";
+    surface.appendChild(bulletsWrap);
 
-  const bulletsWrap = document.createElement("div");
-  bulletsWrap.className = "slide-bullets-wrap";
-  box.appendChild(bulletsWrap);
+    const animClass = opts.animClass || (slide.animation && slide.animation !== "none" ? `bullet-anim-${slide.animation}` : "");
+    const revealLimit = opts.revealCount !== undefined ? opts.revealCount : (slide.bullets ? slide.bullets.length : 0);
 
-  const animClass = opts.animClass || (slide.animation && slide.animation !== "none" ? `bullet-anim-${slide.animation}` : "");
-  const revealLimit = opts.revealCount !== undefined ? opts.revealCount : (slide.bullets ? slide.bullets.length : 0);
+    (slide.bullets || []).forEach((b, bIdx) => {
+      const p = document.createElement("div");
+      p.className = "slideshow-bullet-point";
+      p.dataset.bidx = bIdx;
+      p.style.color = slide.color || 'inherit';
 
-  (slide.bullets || []).forEach((b, bIdx)=>{
-    const p = document.createElement("div");
-    p.className = "slide-bullet-item";
-    p.style.cssText = `font-size:13px;margin-bottom:6px;line-height:1.45;color:${slide.color||'inherit'};`;
-
-    if(opts.stepByStep){
-      if(bIdx < revealLimit){
-        p.textContent = "• " + b.text;
-        if(animClass && (opts.allAnimated || (bIdx === revealLimit - 1 && opts.justRevealed))){
-          p.classList.add(animClass);
+      if(opts.stepByStep){
+        if(bIdx < revealLimit){
+          p.textContent = "\u2022 " + b.text;
+          if(animClass && (opts.allAnimated || (bIdx === revealLimit - 1 && opts.justRevealed))){
+            void p.offsetWidth;
+            p.classList.add(animClass);
+          }
+        } else {
+          p.classList.add("hidden-bullet");
         }
       } else {
-        p.style.display = "none";
+        p.textContent = "\u2022 " + b.text;
+        if(animClass && (opts.animateBullets || opts.allAnimated)){
+          p.classList.add(animClass);
+          p.style.animationDelay = `${bIdx * 0.14}s`;
+        }
       }
-    } else {
-      p.textContent = "• " + b.text;
-      if(animClass && (opts.animateBullets || opts.allAnimated)){
-        p.classList.add(animClass);
-        p.style.animationDelay = `${bIdx * 0.12}s`;
-      }
-    }
-    bulletsWrap.appendChild(p);
-  });
+      bulletsWrap.appendChild(p);
+    });
 
-  if(m.pageNum) box.insertAdjacentHTML("beforeend", `<div class="pagenum">${idx+1} / ${total}</div>`);
+    if(m.pageNum) surface.insertAdjacentHTML("beforeend", `<div class="slideshow-pagenum">${idx+1} / ${total}</div>`);
+  }
+
+  let viewport = box.querySelector(".slide-viewport");
+  if(!viewport){
+    box.innerHTML = "";
+    viewport = document.createElement("div");
+    viewport.className = "slide-viewport";
+    box.appendChild(viewport);
+  }
+
+  const newSurface = document.createElement("div");
+  newSurface.className = "slide-surface";
+  buildSurface(newSurface);
+
+  const transOpt = opts.transitionClass;
+  const transName = transOpt && transOpt !== "slide-trans-none" ? transOpt.replace("slide-trans-", "") : null;
+
+  if(transName && viewport.querySelector(".slide-surface")){
+    const oldSurface = viewport.querySelector(".slide-surface");
+    oldSurface.classList.add(`trans-${transName}-out`);
+    newSurface.classList.add(`trans-${transName}-in`);
+    viewport.appendChild(newSurface);
+    setTimeout(() => { if(oldSurface.parentNode === viewport) viewport.removeChild(oldSurface); }, 750);
+  } else {
+    viewport.innerHTML = "";
+    viewport.appendChild(newSurface);
+  }
 }
 
 function simSlides(content, mode){
@@ -4386,80 +4439,51 @@ function openSlideShowModal(deckToPlay, startIndex){
   const modal = host.querySelector("#slideshowModal");
   modal.focus();
 
-  function renderCurrent(triggerTransition, justRevealed){
+  function buildSlideScreen(surface){
     curSlide = deckToPlay.slides[curIdx];
     const trans = curSlide.transition || "fade";
     const anim = curSlide.animation || "fly-bottom";
     const trigger = curSlide.animTrigger || "onclick";
     const m = deckToPlay.master || {logo:false, logoText:"MY BRAND", pageNum:false};
+    const animClass = anim !== "none" ? `bullet-anim-${anim}` : "";
 
-    modal.querySelector("#ssTransBadge").textContent = `Transition: ${trans.charAt(0).toUpperCase() + trans.slice(1)}`;
-    modal.querySelector("#ssAnimBadge").textContent = `Animation: ${anim.charAt(0).toUpperCase() + anim.slice(1)}`;
-    modal.querySelector("#ssCounter").textContent = `Slide ${curIdx + 1} of ${deckToPlay.slides.length}`;
-
-    const totalBullets = (curSlide.bullets || []).length;
-    let statusMsg = "";
-    if(trigger === "onclick"){
-      if(curRevealed < totalBullets){
-        statusMsg = `${curRevealed} of ${totalBullets} bullets revealed • Click or press Space to reveal next`;
-      } else {
-        statusMsg = curIdx < deckToPlay.slides.length - 1 ? `Slide complete • Click or press Space for next slide` : `Final slide reached • Press Esc to exit`;
-      }
-    } else {
-      statusMsg = curIdx < deckToPlay.slides.length - 1 ? `Click or press Space for next slide` : `Final slide reached • Press Esc to exit`;
-    }
-    modal.querySelector("#ssStatus").textContent = statusMsg;
-
-    const screen = modal.querySelector("#ssScreen");
-    screen.innerHTML = "";
-    screen.style.backgroundColor = curSlide.bg || "#ffffff";
-    screen.style.color = curSlide.color || "#1e2432";
-
-    const allTrans = ["slide-trans-fade","slide-trans-slide-left","slide-trans-slide-right","slide-trans-slide-up","slide-trans-zoom","slide-trans-wipe","slide-trans-flip"];
-    screen.classList.remove(...allTrans);
-    if(triggerTransition && trans !== "none"){
-      void screen.offsetWidth;
-      screen.classList.add(`slide-trans-${trans}`);
-    }
+    surface.style.background = curSlide.bg || "#ffffff";
+    surface.style.color = curSlide.color || "#1e2432";
 
     if(m.logo){
       const l = document.createElement("div");
       l.className = "slideshow-logo";
-      l.textContent = "● " + (m.logoText || "MY BRAND");
-      screen.appendChild(l);
+      l.textContent = "\u25cf " + (m.logoText || "MY BRAND");
+      surface.appendChild(l);
     }
 
     const titleEl = document.createElement("div");
     titleEl.className = "slideshow-title";
     titleEl.style.color = curSlide.color || "inherit";
     titleEl.textContent = curSlide.title || "Untitled Slide";
-    screen.appendChild(titleEl);
+    surface.appendChild(titleEl);
 
     const bulletsWrap = document.createElement("div");
     bulletsWrap.className = "slideshow-bullets-wrap";
-    screen.appendChild(bulletsWrap);
+    surface.appendChild(bulletsWrap);
 
-    const animClass = anim !== "none" ? `bullet-anim-${anim}` : "";
-
-    (curSlide.bullets || []).forEach((b, bIdx)=>{
+    (curSlide.bullets || []).forEach((b, bIdx) => {
       const bp = document.createElement("div");
       bp.className = "slideshow-bullet-point";
+      bp.dataset.bidx = bIdx;
       bp.style.color = curSlide.color || "inherit";
 
       if(trigger === "onclick"){
         if(bIdx < curRevealed){
-          bp.textContent = "• " + b.text;
-          if(animClass && bIdx === curRevealed - 1 && justRevealed){
-            bp.classList.add(animClass);
-          }
+          bp.textContent = "\u2022 " + b.text;
         } else {
-          bp.style.display = "none";
+          bp.classList.add("hidden-bullet");
         }
       } else {
-        bp.textContent = "• " + b.text;
-        if(animClass && triggerTransition){
+        bp.textContent = "\u2022 " + b.text;
+        if(animClass){
           bp.classList.add(animClass);
-          bp.style.animationDelay = `${bIdx * 0.14}s`;
+          bp.style.animationDelay = `${bIdx * 0.18}s`;
         }
       }
       bulletsWrap.appendChild(bp);
@@ -4469,7 +4493,85 @@ function openSlideShowModal(deckToPlay, startIndex){
       const pg = document.createElement("div");
       pg.className = "slideshow-pagenum";
       pg.textContent = `${curIdx + 1} / ${deckToPlay.slides.length}`;
-      screen.appendChild(pg);
+      surface.appendChild(pg);
+    }
+    return surface;
+  }
+
+  function updateStatusBar(){
+    curSlide = deckToPlay.slides[curIdx];
+    const trans = curSlide.transition || "fade";
+    const anim = curSlide.animation || "fly-bottom";
+    const trigger = curSlide.animTrigger || "onclick";
+    const totalBullets = (curSlide.bullets || []).length;
+    modal.querySelector("#ssTransBadge").textContent = `Transition: ${trans.charAt(0).toUpperCase() + trans.slice(1)}`;
+    modal.querySelector("#ssAnimBadge").textContent = `Animation: ${anim.charAt(0).toUpperCase() + anim.slice(1)}`;
+    modal.querySelector("#ssCounter").textContent = `Slide ${curIdx + 1} of ${deckToPlay.slides.length}`;
+    let statusMsg = "";
+    if(trigger === "onclick"){
+      if(curRevealed < totalBullets){
+        statusMsg = `${curRevealed} of ${totalBullets} bullets revealed \u2022 Click or press Space to reveal next`;
+      } else {
+        statusMsg = curIdx < deckToPlay.slides.length - 1 ? `Slide complete \u2022 Click or press Space for next slide` : `Final slide reached \u2022 Press Esc to exit`;
+      }
+    } else {
+      statusMsg = curIdx < deckToPlay.slides.length - 1 ? `Click or press Space for next slide` : `Final slide reached \u2022 Press Esc to exit`;
+    }
+    modal.querySelector("#ssStatus").textContent = statusMsg;
+  }
+
+  function getViewport(){
+    const screen = modal.querySelector("#ssScreen");
+    let vp = screen.querySelector(".slide-viewport");
+    if(!vp){
+      screen.innerHTML = "";
+      vp = document.createElement("div");
+      vp.className = "slide-viewport";
+      screen.appendChild(vp);
+    }
+    return vp;
+  }
+
+  function renderCurrent(triggerTransition){
+    curSlide = deckToPlay.slides[curIdx];
+    updateStatusBar();
+    const trans = curSlide.transition || "fade";
+
+    const viewport = getViewport();
+    const newSurface = document.createElement("div");
+    newSurface.className = "slide-surface";
+    buildSlideScreen(newSurface);
+
+    const oldSurface = viewport.querySelector(".slide-surface");
+    if(triggerTransition && trans !== "none" && oldSurface){
+      oldSurface.classList.add(`trans-${trans}-out`);
+      newSurface.classList.add(`trans-${trans}-in`);
+      viewport.appendChild(newSurface);
+      setTimeout(() => { if(oldSurface.parentNode === viewport) viewport.removeChild(oldSurface); }, 750);
+    } else {
+      viewport.innerHTML = "";
+      viewport.appendChild(newSurface);
+    }
+  }
+
+  function revealNextBullet(){
+    curSlide = deckToPlay.slides[curIdx];
+    updateStatusBar();
+    const anim = curSlide.animation || "fly-bottom";
+    const animClass = anim !== "none" ? `bullet-anim-${anim}` : "";
+    const viewport = getViewport();
+    const surface = viewport.querySelector(".slide-surface");
+    if(!surface) return;
+    const bulletEl = surface.querySelector(`.slideshow-bullet-point[data-bidx="${curRevealed - 1}"]`);
+    if(!bulletEl) return;
+    const bText = (curSlide.bullets[curRevealed - 1] || {}).text || "";
+    bulletEl.textContent = "\u2022 " + bText;
+    bulletEl.style.color = curSlide.color || "inherit";
+    bulletEl.classList.remove("hidden-bullet");
+    if(animClass){
+      bulletEl.classList.remove(animClass);
+      void bulletEl.offsetWidth;
+      bulletEl.classList.add(animClass);
     }
   }
 
@@ -4478,18 +4580,18 @@ function openSlideShowModal(deckToPlay, startIndex){
     const trigger = curSlide.animTrigger || "onclick";
     if(trigger === "onclick" && curRevealed < totalBullets){
       curRevealed++;
-      renderCurrent(false, true);
+      revealNextBullet();
     } else if(curIdx < deckToPlay.slides.length - 1){
       curIdx++;
       curSlide = deckToPlay.slides[curIdx];
       curRevealed = curSlide.animTrigger === "all" ? (curSlide.bullets || []).length : 0;
-      renderCurrent(true, false);
+      renderCurrent(true);
     } else {
       if(autoPlaySec > 0){
         curIdx = 0;
         curSlide = deckToPlay.slides[curIdx];
         curRevealed = curSlide.animTrigger === "all" ? (curSlide.bullets || []).length : 0;
-        renderCurrent(true, false);
+        renderCurrent(true);
       }
     }
     resetAutoPlay();
@@ -4499,12 +4601,12 @@ function openSlideShowModal(deckToPlay, startIndex){
     const trigger = curSlide.animTrigger || "onclick";
     if(trigger === "onclick" && curRevealed > 0){
       curRevealed--;
-      renderCurrent(false, false);
+      renderCurrent(false);
     } else if(curIdx > 0){
       curIdx--;
       curSlide = deckToPlay.slides[curIdx];
       curRevealed = (curSlide.bullets || []).length;
-      renderCurrent(true, false);
+      renderCurrent(true);
     }
     resetAutoPlay();
   }
@@ -4596,7 +4698,7 @@ function openSlideShowModal(deckToPlay, startIndex){
     }
   });
 
-  renderCurrent(true, false);
+  renderCurrent(false);
 }
 
 /* ---------- POWERPOINT ---------- */
